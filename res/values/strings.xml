@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">채식식당 지도</string>
+    <string name="title_activity_nmap_viewer">NMapViewerActivity</string>
+    <string name="str_done">완료</string>
+    <string name="title_activity_vege_map">채식식당 지도</string>
+    <string name="title_activity_restaurant_info">식당 정보</string>
+    <string name="title_activity_web_view">WebViewActivity</string>
+    <string name="title_activity_config">지도 보기 설정</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.vegansoft.vegemap"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="14" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+	<uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    
+
+    <application
+        android:name=".VegeMapApplication"
+        android:allowBackup="true"
+        android:debuggable="false"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".nmap.NMapViewer"
+            android:label="@string/title_activity_nmap_viewer" >
+        </activity>
+        <activity
+            android:name=".nmap.FragmentActivity"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+        <activity
+            android:name=".map.VegeNaverMapActivity"
+            android:label="@string/title_activity_vege_map"
+            android:uiOptions="splitActionBarWhenNarrow" >
+        </activity>
+        <activity
+            android:name=".map.RestaurantInfoActivity"
+            android:label="@string/title_activity_restaurant_info" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.vegansoft.vegemap.map.VegeNaverMapActivity" />
+        </activity>
+        <activity
+            android:name=".webview.WebViewActivity"
+            android:label="@string/title_activity_web_view" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.vegansoft.vegemap.map.RestaurantInfoActivity" />
+        </activity>
+        <activity
+            android:name="com.vegansoft.vegemap.config.ConfigActivity"
+            android:label="@string/title_activity_config" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.vegansoft.vegemap.map.VegeNaverMapActivity" />
+        </activity>
+    </application>
+
+</manifest>
