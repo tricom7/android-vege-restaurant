@@ -1,0 +1,267 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:padding="20dp" >
+
+        <Button
+            android:id="@+id/btCheckDB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/btn_glossy"
+            android:layout_gravity="right"
+            android:text="최신 식당 정보 가져오기"
+            android:textSize="12sp"
+            android:textColor="#FFFFFF" />
+
+        <LinearLayout style="@style/ConfigRow" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ico_all_green" />
+
+            <TextView
+                style="@style/ConfigText"
+                android:text="비건" />
+
+            <CheckBox
+                android:id="@+id/chkVegan"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ConfigRow" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ico_green_milky" />
+
+            <TextView
+                style="@style/ConfigText"
+                android:text="락토 채식" />
+
+            <CheckBox
+                android:id="@+id/chkLacto"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ConfigRow" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ico_green_yellow" />
+
+            <TextView
+                style="@style/ConfigText"
+                android:text="유란 채식" />
+
+            <CheckBox
+                android:id="@+id/chkOvo"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ConfigRow" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ico_green_yellow_milky" />
+
+            <TextView
+                style="@style/ConfigText"
+                android:text="락토 오보" />
+
+            <CheckBox
+                android:id="@+id/chkLactoOvo"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ConfigRow" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ico_mostly_green" />
+
+            <TextView
+                style="@style/ConfigText"
+                android:text="대부분 채식" />
+
+            <CheckBox
+                android:id="@+id/chkMostly"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ConfigRow" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ico_partly_green" />
+
+            <TextView
+                style="@style/ConfigText"
+                android:text="일부 채식" />
+
+            <CheckBox
+                android:id="@+id/chkPartly"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ConfigRow"
+            android:layout_marginTop="30dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ico_order" />
+
+            <TextView
+                style="@style/ConfigText"
+                android:text="주문식 식당" />
+
+            <CheckBox
+                android:id="@+id/chkRestaurant"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ConfigRow" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ico_buffet" />
+
+            <TextView
+                style="@style/ConfigText"
+                android:text="뷔페" />
+
+            <CheckBox
+                android:id="@+id/chkBuffet"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ConfigRow" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ico_bakery" />
+
+            <TextView
+                style="@style/ConfigText"
+                android:text="베이커리/떡카페" />
+
+            <CheckBox
+                android:id="@+id/chkBakery"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ConfigRow" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ico_cafe" />
+
+            <TextView
+                style="@style/ConfigText"
+                android:text="카페" />
+
+            <CheckBox
+                android:id="@+id/chkCafe"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/ConfigRow"
+            android:layout_marginTop="30dp" >
+
+            <TextView
+                style="@style/ConfigFranchiseText"
+                android:text="본비빔밥" />
+
+            <CheckBox
+                android:id="@+id/chkBon"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ConfigRow" >
+
+            <TextView
+                style="@style/ConfigFranchiseText"
+                android:text="떡담" />
+
+            <CheckBox
+                android:id="@+id/chkThuckdam"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ConfigRow" >
+
+            <TextView
+                style="@style/ConfigFranchiseText"
+                android:text="소딜리셔스" />
+
+            <CheckBox
+                android:id="@+id/chkSoDelicious"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ConfigRow" >
+
+            <TextView
+                style="@style/ConfigFranchiseText"
+                android:text="빚은" />
+
+            <CheckBox
+                android:id="@+id/chkBizun"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ConfigRow" >
+
+            <TextView
+                style="@style/ConfigFranchiseText"
+                android:text="강가" />
+
+            <CheckBox
+                android:id="@+id/chkGanga"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ConfigRow" >
+
+            <TextView
+                style="@style/ConfigFranchiseText"
+                android:text="서브웨이" />
+
+            <CheckBox
+                android:id="@+id/chkSubway"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ConfigRow" >
+
+            <TextView
+                style="@style/ConfigFranchiseText"
+                android:text="커피빈" />
+
+            <CheckBox
+                android:id="@+id/chkCoffeeBean"
+                style="@style/ConfigCheckBox" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
