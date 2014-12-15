@@ -33,16 +33,16 @@ import com.vegansoft.vegemap.nmap.NMapPOIflagType;
 import com.vegansoft.vegemap.nmap.NMapViewerResourceProvider;
 
 public class VegeNaverMapActivity extends NMapActivity {
-	private static final String TAG = "VegeMap";
+	private String TAG = this.getClass().getName();
 
 	private static final boolean DEBUG = true;
 
 	@Override
 	protected void onResume() {
 		Log.d(TAG, "onResume() ...");
-		
-		drawMap();
-		
+
+		drawMap(-1); // 줌 레벨을 변경하지 않도록 인자로 -1을 줌
+
 		super.onResume();
 	}
 
@@ -56,18 +56,17 @@ public class VegeNaverMapActivity extends NMapActivity {
 	private NMapLocationManager mMapLocationManager;
 	private NMapCompassManager mMapCompassManager;
 
-	private NMapViewerResourceProvider mMapViewerResourceProvider; // 오버레이 객체에
-																	// 이미지 리소스
-																	// 제공
+	private NMapViewerResourceProvider mMapViewerResourceProvider; // 오버레이 객체에 이미지 리소스 제공
 	private NMapOverlayManager mOverlayManager; // 오버레이 객체 관리
 	private NMapController mMapController;
 
 	private NMapPOIdataOverlay mPoiDataOverlay;
 
-	private NMapPOIdata poiData; // 여러 오버레이 아이템을 하나의 오버레이 객체에서 관리하기 위해
-									// NMapPOIdata 객체 생성
+	private NMapPOIdata poiData; // 여러 오버레이 아이템을 하나의 오버레이 객체에서 관리하기 위해 NMapPOIdata 객체 생성
 
 	private HashMap<String, Restaurant> restaurantHash;
+
+	private static int zoomLevel = 3; // 초기값
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +74,10 @@ public class VegeNaverMapActivity extends NMapActivity {
 
 		Log.d(TAG, "onCreate()...");
 
-		drawMap();
+		drawMap(3);
 	}
 
-	private void drawMap() {
+	private void drawMap(int zoomLevel) {
 		/* 1. 지도 표시 */
 		Log.d(TAG, "");
 		mMapView = new NMapView(this);
@@ -100,37 +99,25 @@ public class VegeNaverMapActivity extends NMapActivity {
 		// 지도의 확대/축소, 중앙위치 지정에 필요한 NMapController 객체 생성
 		mMapController = mMapView.getMapController();
 
-		// 지도의 중앙에 표시할 경도, 위도 및 지도의 확대 수준을 지정 (확대 수준은 1~14 사이임 값이 클수록 크게 확대한
-		// 것이다.)
-		mMapController.setMapCenter(new NGeoPoint(127.862314, 36.350649), 3); // 경도,
-																				// 위도,
-																				// 확대비율
+		// 지도의 중앙에 표시할 경도, 위도 및 지도의 확대 수준을 지정 (확대 수준은 1~14 사이임 값이 클수록 크게 확대한 것이다.)
+		if (zoomLevel != -1) { // -1로 인자가 전달되면 줌 레벤이나 현재 지도 위치를 변경 시키지 않음(식당 상제 정보에서 back 버튼으로 돌아올 경우)
+			mMapController.setMapCenter(new NGeoPoint(127.862314, 36.350649), zoomLevel); // 경도, 위도, 확대비율
+		}
 
 		/* 2. 지도에 오버레이 표시 */
 		// 오버레이 객체에 이미지 리소스를 제공하는 NMapViewerResourceProvider 객체 생성
 		mMapViewerResourceProvider = new NMapViewerResourceProvider(this);
-		
 
-		
 		// 지도상에 표시되는 오버레이 객체를 관리하는 NMapOverlayManager 클래스의 객체 생성
 		mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);
 
 		makePoiData();
 
 		// 여러 오버레이 아이템이 등록된 NMapPOIdata 객체를 갖고, 하나의 NMapPOIdataOverlay 객체 생성
-		mPoiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null); // (인자:
-																				// ,
-																				// 기본
-																				// 마커를
-																				// 지정하는
-																				// 것으로
-																				// 일반적으로
-																				// null
-																				// 을
-																				// 사용함)
+		mPoiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null); // (인자: , 기본 마커를 지정하는 것으로 일반적으로 null 을 사용함)
 
 		// 모든 오버레이가 화면에 표시되도록 지도의 중심과 확대 정도를 변경
-		mPoiDataOverlay.showAllPOIdata(3); // (인자: 줌 레벨)
+		// mPoiDataOverlay.showAllPOIdata(3); // (인자: 줌 레벨)
 
 		/* 3. 말풍선에 이벤트 연결하기 */
 		// set event listener to the overlay
@@ -149,12 +136,12 @@ public class VegeNaverMapActivity extends NMapActivity {
 
 		/* 5. 기타 */
 		mMapContainerView.setmOverlayManager(mOverlayManager);
-		
-		if (!CheckNetwork.isNetworkAvailable(this)) { 
+
+		if (!CheckNetwork.isNetworkAvailable(this)) {
 			Toast toast = Toast.makeText(this, "현재 네트워크 사용이 불가능하여 지도 정보가 보여지지 않을 수 있습니다.", Toast.LENGTH_LONG);
 			toast.setGravity(Gravity.CENTER, 0, 0);
 			toast.show();
-		} 
+		}
 	}
 
 	@Override
@@ -239,12 +226,10 @@ public class VegeNaverMapActivity extends NMapActivity {
 		int markerId;
 
 		// 여러 오버레이 아이템을 하나의 오버레이 객체에서 관리하기 위해 NMapPOIdata 객체 생성
-		poiData = new NMapPOIdata(1, mMapViewerResourceProvider); // (인자: 등록할
-																	// 오버레이의 수,
-																	// )
-		
+		poiData = new NMapPOIdata(1, mMapViewerResourceProvider); // (인자: 등록할 오버레이의 수, )
+
 		poiData.removeAllPOIdata();
-		
+
 		poiData.beginPOIdata(1); // 아이템 등록 시작 (인자: 오버레이의 개수)
 
 		// 오버레이 아이템의 수만큼 addPOIitem() 메소드를 사용해서 오버레이 아이템을 등록
@@ -253,8 +238,7 @@ public class VegeNaverMapActivity extends NMapActivity {
 			markerId = getPinIcon(restaurant.getGrade());
 			// Log.d(TAG, restaurant.getName() + ": " + restaurant.getLatitude()
 			// + "," + restaurant.getLongitude());
-			NMapPOIitem item = poiData.addPOIitem(restaurant.getLongitude(), restaurant.getLatitude(), restaurant.getName(), markerId, restaurant.getId()); // 아이템을
-																																							// 등록
+			NMapPOIitem item = poiData.addPOIitem(restaurant.getLongitude(), restaurant.getLatitude(), restaurant.getName(), markerId, restaurant.getId()); // 아이템을 등록
 			item.setMarker(getResources().getDrawable(R.drawable.ic_angle));
 			// item.setMarkerId(arg0)
 			item.setRightAccessory(true, NMapPOIflagType.CLICKABLE_ARROW);
@@ -262,8 +246,8 @@ public class VegeNaverMapActivity extends NMapActivity {
 
 		// (인자: 경도, 위도, 타이틀, 핀 아이콘, id)
 		poiData.endPOIdata(); // 오버레이 아이템의 등록 종료
-		
-//		mMapViewerResourceProvider.notifyAll();//LSD
+
+		// mMapViewerResourceProvider.notifyAll();//LSD
 	}
 
 	/**
@@ -317,7 +301,8 @@ public class VegeNaverMapActivity extends NMapActivity {
 			break;
 
 		case R.id.item_all:
-			mMapController.setMapCenter(new NGeoPoint(127.862314, 36.350649), 3);
+			zoomLevel = 3;
+			mMapController.setMapCenter(new NGeoPoint(127.862314, 36.350649), zoomLevel);
 			break;
 
 		case R.id.item_satellite:
@@ -354,9 +339,7 @@ public class VegeNaverMapActivity extends NMapActivity {
 		case B_ACTIVITY: // requestCode가 B_ACTIVITY인 케이스
 			if (resultCode == RESULT_OK) { // B_ACTIVITY에서 넘겨진 resultCode가 OK일때만
 											// 실행
-				intent.getExtras().getInt("data"); // 등과 같이 사용할 수 있는데, 여기서
-													// getXXX()안에 들어있는 파라메터는 꾸러미
-													// 속 데이터의 이름표라고 보면된다.
+				intent.getExtras().getInt("data"); // 등과 같이 사용할 수 있는데, 여기서 getXXX()안에 들어있는 파라메터는 꾸러미 속 데이터의 이름표라고 보면된다.
 
 				Log.d(TAG, "data: " + intent.getExtras().getInt("data"));
 
@@ -461,5 +444,5 @@ public class VegeNaverMapActivity extends NMapActivity {
 			}
 		}
 	};
-	
+
 }
