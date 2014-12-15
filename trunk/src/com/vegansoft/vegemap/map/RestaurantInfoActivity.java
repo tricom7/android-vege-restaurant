@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +15,7 @@ import com.vegansoft.vegemap.R;
 import com.vegansoft.vegemap.model.Restaurant;
 
 public class RestaurantInfoActivity extends Activity implements OnClickListener {
-	private static final String TAG = "VegeMap";
+	private String TAG = this.getClass().getName();
 
 	private static Restaurant restaurant;
 
@@ -133,10 +132,12 @@ public class RestaurantInfoActivity extends Activity implements OnClickListener 
 			startActivity(intent);
 			break;
 		case R.id.btTel:
-			String strUri = "tel:" + restaurant.getTel().trim();
-			intent = new Intent(Intent.ACTION_DIAL);
-			intent.setData(Uri.parse(strUri));
-			startActivity(intent);
+			if (restaurant.getTel()!=null) {
+				String strUri = "tel:" + restaurant.getTel().trim();
+				intent = new Intent(Intent.ACTION_DIAL);
+				intent.setData(Uri.parse(strUri));
+				startActivity(intent);
+			}
 			break;
 		case R.id.btGoogleMap:
 			//WebView 에 URL 호출 방식...
